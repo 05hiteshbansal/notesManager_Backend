@@ -49,7 +49,7 @@ app.post("/notes",async (req, res) => {
   }
 });
 
-app.get("/notes", async (req, res) => {
+app.post("/getnotes", async (req, res) => {
   const { uid } = req.body;
   const fetchData = await Notes.find({
     uid: uid,
@@ -74,17 +74,23 @@ app.delete("/allnotes", async (req, res) => {
   });
 });
 
-app.delete("/onenotes", async (req, res) => {
+app.post("/onenote", async (req, res) => {
   const { uid, dataid } = req.body;
-  console.log(uid, dataid);
-  const fetchData = await Notes.findOne({
-    uid: uid,
-    notes: [{ _id: dataid }],
-  });
+  //console.log(uid, dataid);
+  let fetchData = await Notes.find({
+     uid:uid,
+  })
+  // await Notes.findOneAndUpdate(
+  //   { uid: uid },
+  //   { $pull: { notes: { _id:dataid } } },
+  //   { safe: true, multi: false }
+  // );
+  fetchData[0].notes.pull({_id:dataid});
   console.log(fetchData);
-  await fetchData.deleteOne();
+  fetchData[0].save();
   res.status(200).json({
     message: "deleted",
+    fetchData
   });
 });
 
