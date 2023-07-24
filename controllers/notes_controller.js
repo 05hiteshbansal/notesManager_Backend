@@ -7,6 +7,7 @@ exports.test = async (req, res) => {
 };
 
 exports.addNote = async (req, res) => {
+try {
   console.log(req.body);
   const { uid, data } = req.body;
   console.log(uid);
@@ -33,9 +34,13 @@ exports.addNote = async (req, res) => {
       fetchData,
     });
   }
+} catch (error) {
+  console.log(error.message)
+}
 };
 
 exports.getAllNotes = async (req, res) => {
+ try {
   const { uid } = req.body;
   const fetchData = await Notes.find({
     uid: uid,
@@ -45,10 +50,12 @@ exports.getAllNotes = async (req, res) => {
     message: "true",
     fetchData,
   });
+ } catch (error) {
+  console.log(error.message)
+ }
 };
 
-exports.deleteAllNotes = 
-async (req, res) => {
+exports.deleteAllNotes = async (req, res) => {
   const { uid } = req.body;
   console.log(uid);
   const fetchData = await Notes.findOne({

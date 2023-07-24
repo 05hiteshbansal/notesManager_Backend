@@ -21,6 +21,7 @@ app.get("/",async (req, res) => {
 });
 
 app.post("/notes",async (req, res) => {
+ try {
   console.log(req.body);
   const { uid, data } = req.body;
   console.log(uid);
@@ -47,9 +48,13 @@ app.post("/notes",async (req, res) => {
       fetchData,
     });
   }
+ } catch (error) {
+  console.log(error.message)
+ }
 });
 
 app.post("/getnotes", async (req, res) => {
+ try {
   const { uid } = req.body;
   const fetchData = await Notes.find({
     uid: uid,
@@ -59,9 +64,13 @@ app.post("/getnotes", async (req, res) => {
     message: "true",
     fetchData,
   });
+ } catch (error) {
+  console.log(error.message)
+ }
 });
 
 app.delete("/allnotes", async (req, res) => {
+try {
   const { uid } = req.body;
   console.log(uid);
   const fetchData = await Notes.findOne({
@@ -72,10 +81,15 @@ app.delete("/allnotes", async (req, res) => {
   res.status(200).json({
     message: "deleted",
   });
+
+} catch (error) {
+console.log(error.message)  
+}
 });
 
 app.post("/onenote", async (req, res) => {
-  const { uid, dataid } = req.body;
+  try {
+    const { uid, dataid } = req.body;
   //console.log(uid, dataid);
   let fetchData = await Notes.find({
      uid:uid,
@@ -92,6 +106,9 @@ app.post("/onenote", async (req, res) => {
     message: "deleted",
     fetchData
   });
+  } catch (error) {
+    console.log(error.message)
+  }
 });
 
 
