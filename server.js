@@ -94,6 +94,9 @@ app.post("/onenote", async (req, res) => {
   });
 });
 
-app.listen(4000, () => {
+
+port = process.env.PORT||4000
+
+app.listen(port, () => {
   console.log("app is connected successfully");
 });
